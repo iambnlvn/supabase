@@ -2,11 +2,11 @@ import { ExternalLink, Eye, EyeOff, FlaskConical } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect } from 'react'
 
-import { useParams } from 'common'
+import { LOCAL_STORAGE_KEYS, useParams } from 'common'
 import { useSendEventMutation } from 'data/telemetry/send-event-mutation'
 import { useSelectedOrganization } from 'hooks/misc/useSelectedOrganization'
 import { useFlag } from 'hooks/ui/useFlag'
-import { IS_PLATFORM, LOCAL_STORAGE_KEYS } from 'lib/constants'
+import { IS_PLATFORM } from 'lib/constants'
 import { useAppStateSnapshot } from 'state/app-state'
 import { removeTabsByEditor } from 'state/tabs'
 import { Badge, Button, Modal, ScrollArea, cn } from 'ui'
@@ -19,12 +19,9 @@ const FeaturePreviewModal = () => {
   const featurePreviewContext = useFeaturePreviewContext()
   const { mutate: sendEvent } = useSendEventMutation()
 
-  const enableNewLayoutPreview = useFlag('newLayoutPreview')
-
+  // [Joshen] Use this if we want to feature flag previews
   function isReleasedToPublic(feature: (typeof FEATURE_PREVIEWS)[number]) {
     switch (feature.key) {
-      case LOCAL_STORAGE_KEYS.UI_NEW_LAYOUT_PREVIEW:
-        return enableNewLayoutPreview
       default:
         return true
     }
